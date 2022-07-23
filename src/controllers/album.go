@@ -21,7 +21,7 @@ func DeleteAlbum(ctx *gin.Context) {
 		}
 		ctx.IndentedJSON(http.StatusNotFound, models.GenerateError(http.StatusNotFound, "Item not found."))
 	} else {
-		ctx.IndentedJSON(http.StatusInternalServerError, models.GenerateError(http.StatusInternalServerError, "Invalid request parameter"))
+		ctx.IndentedJSON(http.StatusInternalServerError, models.GenerateError(http.StatusInternalServerError, "Invalid request parameter."))
 		return
 	}
 }
@@ -41,7 +41,7 @@ func GetAlbum(ctx *gin.Context) {
 		}
 		ctx.IndentedJSON(http.StatusNotFound, models.GenerateError(http.StatusNotFound, "Item not found."))
 	} else {
-		ctx.IndentedJSON(http.StatusInternalServerError, models.GenerateError(http.StatusInternalServerError, "Invalid request parameter"))
+		ctx.IndentedJSON(http.StatusInternalServerError, models.GenerateError(http.StatusInternalServerError, "Invalid request parameter."))
 		return
 	}
 }
@@ -50,11 +50,35 @@ func PostAlbum(ctx *gin.Context) {
 	var newAlbum models.Album
 	d := db.GetDatabase()
 	if err := ctx.BindJSON(&newAlbum); err != nil {
-		ctx.Status(http.StatusBadRequest)
+		ctx.IndentedJSON(http.StatusBadRequest, models.GenerateError(http.StatusBadRequest, "Invalid JSON body."))
 		return
 	}
 
 	d.Albums = append(d.Albums, newAlbum)
 
 	ctx.IndentedJSON(http.StatusOK, d.Albums)
+}
+
+func UpdateAlbum(ctx *gin.Context) {
+	var updatedAlbum models.Album
+	d := db.GetDatabase()
+
+	if err := ctx.BindJSON(&updatedAlbum); err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, models.GenerateError(http.StatusBadRequest, "Invalid JSON body."))
+		return
+	}
+
+	if id, ok := ctx.Params.Get("id"); ok {
+		for i, a := range d.Albums {
+			if a.ID == id {
+				d.Albums[i] = updatedAlbum
+				ctx.IndentedJSON(http.StatusOK, d.Albums)
+				return
+			}
+		}
+		ctx.IndentedJSON(http.StatusNotFound, models.GenerateError(http.StatusNotFound, "Item not found."))
+	} else {
+		ctx.IndentedJSON(http.StatusInternalServerError, models.GenerateError(http.StatusInternalServerError, "Invalid request parameter."))
+		return
+	}
 }

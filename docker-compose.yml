@@ -5,5 +5,6 @@ services:
     environment:
       - GO_RUN_HOST=0.0.0.0
       - GO_RUN_PORT=8080
+      - MONGO_URL=
     ports: 
       - 8080:8080

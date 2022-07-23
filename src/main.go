@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/WinIT23/web-service-gin/configs"
 	"github.com/WinIT23/web-service-gin/routers"
 	"github.com/gin-gonic/gin"
 )
@@ -10,8 +11,13 @@ import (
 func main() {
 	app := gin.Default()
 
+	// Setup MongoDB.
+	configs.GetMongoClient()
+
+	// Setup routers.
 	routers.AlbumRoute(app)
 
+	// Start server.
 	app.Run(getHost())
 }
 

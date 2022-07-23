@@ -1,10 +1,10 @@
-package handler
+package controllers
 
 import (
 	"net/http"
 
 	"github.com/WinIT23/web-service-gin/db"
-	"github.com/WinIT23/web-service-gin/structures"
+	"github.com/WinIT23/web-service-gin/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,11 +27,11 @@ func GetAlbum(ctx *gin.Context) {
 			return
 		}
 	}
-	ctx.IndentedJSON(http.StatusNotFound, structures.GenerateError(http.StatusNotFound, "Item not found"))
+	ctx.IndentedJSON(http.StatusNotFound, models.GenerateError(http.StatusNotFound, "Item not found"))
 }
 
 func PostAlbum(ctx *gin.Context) {
-	var newAlbum structures.Album
+	var newAlbum models.Album
 	d := db.GetDatabase()
 	if err := ctx.BindJSON(&newAlbum); err != nil {
 		ctx.Status(http.StatusBadRequest)

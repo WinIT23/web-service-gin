@@ -1,22 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/WinIT23/web-service-gin/handler"
-
+	"github.com/WinIT23/web-service-gin/routers"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	app := gin.Default()
 
-	app.GET("/albums", handler.GetAlbums)
-	app.GET("/albums/:id", handler.GetAlbum)
-	app.POST("/albums", handler.PostAlbum)
+	routers.AlbumRoute(app)
 
-	fmt.Println(getHost())
 	app.Run(getHost())
 }
 

@@ -1,16 +1,15 @@
 package main
 
 import (
+	"os"
+
 	"github.com/WinIT23/web-service-gin/handler"
 
 	"github.com/gin-gonic/gin"
 )
 
-const (
-	Addr = "0.0.0.0:8080"
-)
-
 func main() {
+	Addr := os.Getenv("GO_RUN_HOST") + ":" + os.Getenv("GO_RUN_PORT")
 	app := gin.Default()
 
 	app.GET("/albums", handler.GetAlbums)

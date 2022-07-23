@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -111,8 +110,6 @@ func CreateAlbum(ctx *gin.Context) {
 		Title:  album.Title,
 		Price:  album.Price,
 	}
-
-	fmt.Printf("%#v", newAlbum)
 
 	result, err := collection.InsertOne(c, newAlbum)
 	if err != nil {

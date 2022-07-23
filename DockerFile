@@ -9,7 +9,7 @@ COPY ./src "$APP_HOME"
 
 WORKDIR "$APP_HOME"
 
-RUN go get
+RUN go mod vendor
 
 RUN go build -o ./app
 

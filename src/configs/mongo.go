@@ -16,6 +16,8 @@ var lock = &sync.Mutex{}
 
 const dbName = "golang-api"
 
+var uri = os.Getenv("MONGO_URL")
+
 func GetMongoClient() *mongo.Client {
 	if singletonInstance == nil {
 		lock.Lock()
@@ -26,7 +28,6 @@ func GetMongoClient() *mongo.Client {
 }
 
 func connectDB(ctx context.Context) *mongo.Client {
-	uri := os.Getenv("MONGO_URL")
 	if uri == "" {
 		return nil
 	}

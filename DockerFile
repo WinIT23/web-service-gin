@@ -3,9 +3,6 @@ FROM golang:1.18-bullseye
 ENV GO111MODULE=on
 ENV GOFLAGS=-mod=vendor
 
-ENV GO_RUN_HOST=0.0.0.0
-ENV GO_RUN_PORT=8080
-
 ENV APP_HOME /go/src
 
 COPY ./src "$APP_HOME"
@@ -14,6 +11,6 @@ WORKDIR "$APP_HOME"
 
 RUN go get
 
-EXPOSE 8080
+RUN go build -o ./app
 
-CMD [ "go", "run", "main.go" ]
+CMD [ "./app" ]
